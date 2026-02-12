@@ -30,7 +30,6 @@ public:
         for(int i=0;i<s.length();i++){
             int freq[26]={0};
             for(int j=i;j<s.length();j++){
-                
                 freq[s[j]-'a']++;
                 if(check(freq)){
                     maxLen = max(maxLen,j-i+1);

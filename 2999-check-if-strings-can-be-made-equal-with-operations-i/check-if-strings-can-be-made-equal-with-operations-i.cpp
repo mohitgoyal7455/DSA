@@ -1,20 +1,30 @@
 class Solution {
 public:
     bool canBeEqual(string s1, string s2) {
-        if (s1 == s2) return true;
+       int n=s1.size();
+        int m=s2.size();
+        if(n!=m){
+            return 0;
+        }
+        int even[26]={0};
+        int odd[26]={0};
+        for(int i=0;i<n;i++){
+            if(i%2==0){
+                even[s1[i]-'a']++;
+                even[s2[i]-'a']--;
 
-        string temp = s1;
+            }
+            else{
+                odd[s1[i]-'a']++;
+                odd[s2[i]-'a']--;
+            }
 
-        swap(temp[0], temp[2]);
-        if (temp == s2) return true;
-        temp = s1;
-        swap(temp[1], temp[3]);
-        if (temp == s2) return true;
-        temp = s1;
-        swap(temp[0], temp[2]);
-        swap(temp[1], temp[3]);
-        if (temp == s2) return true;
-
-        return false;
+        }
+        for(int i=0;i<26;i++){
+            if(even[i]!=0 || odd[i]!=0){
+                return false;
+            }
+        }
+        return true;
     }
 };

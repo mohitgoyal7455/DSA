@@ -29,7 +29,7 @@ public:
 
         for (int i = 0; i < V; i++) {
             if (vis[i] == -1) {
-                if (!bfs(i, graph, vis))
+                if (bfs(i, graph, vis)==false)
                     return false;
             }
         }

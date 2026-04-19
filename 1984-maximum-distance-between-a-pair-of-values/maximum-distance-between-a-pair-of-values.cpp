@@ -9,7 +9,7 @@ public:
 
         while (i < n && j < m) {
             if (nums1[i] <= nums2[j]) {
-                maxi = max(maxi, j - i);
+                maxi = max(maxi,j-i);
                 j++;
             } else {
                 i++;

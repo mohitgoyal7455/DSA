@@ -1,39 +1,59 @@
 class Solution {
 public:
     vector<int> parent;
+    vector<int> rank;
 
-    int find(int x) {
-        if (parent[x] != x)
-            parent[x] = find(parent[x]);
-        return parent[x];
+    int findUp(int node) {
+        if (parent[node] == node) {
+            return node;
+        }
+        return parent[node] = findUp(parent[node]); 
     }
+    void unionR(int u, int v) {
+        int Ultp_u = findUp(u);
+        int Ultp_v = findUp(v);
 
-    void unite(int a, int b) {
-        parent[find(a)] = find(b);
+        if (Ultp_u == Ultp_v) return;
+
+        if (rank[Ultp_u] > rank[Ultp_v]) {
+            parent[Ultp_v] = Ultp_u;
+        } 
+        else if (rank[Ultp_v] > rank[Ultp_u]) {
+            parent[Ultp_u] = Ultp_v;
+        } 
+        else {
+            parent[Ultp_u] = Ultp_v;
+            rank[Ultp_v]++;  
+        }
     }
-
-    int minimumHammingDistance(vector<int>& source, vector<int>& target, vector<vector<int>>& allowedSwaps) {
+    int minimumHammingDistance(vector<int>& source, vector<int>& target,
+                               vector<vector<int>>& allowedSwaps) {
         int n = source.size();
         parent.resize(n);
-        iota(parent.begin(), parent.end(), 0);
-
-        for (auto& swap : allowedSwaps)
-            unite(swap[0], swap[1]);
-
-        unordered_map<int, unordered_map<int, int>> groupFreq;
-        for (int i = 0; i < n; i++)
-            groupFreq[find(i)][source[i]]++;
-
-        int hammingDistance = 0;
+        rank.resize(n, 0);
         for (int i = 0; i < n; i++) {
-            int root = find(i);
-            auto& freq = groupFreq[root];
-            if (freq.count(target[i]) && freq[target[i]] > 0)
-                freq[target[i]]--;
-            else
-                hammingDistance++;
+            parent[i] = i;
+        }
+        for (const auto& it : allowedSwaps) {
+            unionR(it[0], it[1]);
+        }
+        unordered_map<int, unordered_map<int, int>> mp;
+
+        for (int i = 0; i < n; i++) {
+            int p = findUp(i);
+            mp[p][source[i]]++;
         }
 
-        return hammingDistance;
+        int hammingdis = 0;
+        for (int i = 0; i < n; i++) {
+            int p = findUp(i);
+            if (mp[p][target[i]] > 0) {
+                mp[p][target[i]]--;
+            } else {
+                hammingdis++;
+            }
+        }
+
+        return hammingdis;
     }
 };

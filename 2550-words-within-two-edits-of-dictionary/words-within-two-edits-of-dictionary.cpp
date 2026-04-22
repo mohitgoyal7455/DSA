@@ -19,15 +19,10 @@ public:
                 }
                 if (diff <= 2) {
                     result.push_back(q);
-                    break; 
-                }
-              
+                     break;
+                } 
             }
-            
         }
         return result;
-
-        
-        
     }
 };

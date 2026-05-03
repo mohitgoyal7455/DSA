@@ -4,14 +4,9 @@ public:
         if(s.length()!=goal.length()){
             return false;
         }
-        for(int count =1;count <=s.size();count++){
-            rotate(s.begin(),s.begin()+1,s.end());
-                if(s==goal){
-                    return true;
-                   
-                }
+        if((s+s).find(goal)!=string ::npos){
+            return true;
         }
         return false;
-        
     }
 };

@@ -15,7 +15,7 @@ public:
     ListNode* rotateRight(ListNode* head, int k) {
         if (!head || !head->next || k == 0) return head;
 
-        //find length and last node
+       
         int n = 1;
         ListNode* tail = head;
         while (tail->next) {
@@ -23,21 +23,21 @@ public:
             n++;
         }
 
-        // reduce k
+        
         k = k % n;
         if (k == 0) return head;
 
-        // make circular
+        
         tail->next = head;
 
-        // find new tail (n - k - 1 steps)
+     
         int steps = n - k;
         ListNode* newTail = head;
         while (--steps) {
             newTail = newTail->next;
         }
 
-        // break circle
+        
         ListNode* newHead = newTail->next;
         newTail->next = nullptr;
 

@@ -5,8 +5,8 @@ public:
         long long sum=0,str=0;
         for(auto it:s){
             if(it!='0'){
-                sum=sum*10+it-'0';
-                str+=it-'0';
+                str=str*10+it-'0';
+                sum+=it-'0';
             }
         }
             

@@ -1,22 +1,22 @@
 class Solution {
 public:
-    void dfs(int i, unordered_map<int, vector<int>>& adj, vector<bool>& visited, int& v, int& e) {
-        visited[i] = true;
+    void dfs(int i, vector<vector<int>>& adj, vector<bool>& visited, int& v, int& e) {
+        visited[i] = 1;
         v++;
         e += adj[i].size();
 
-        for(int &ngbr : adj[i]) {
-            if(!visited[ngbr]) {
-                dfs(ngbr, adj, visited, v, e);
+        for(int &it : adj[i]) {
+            if(!visited[it]) {
+                dfs(it, adj, visited, v, e);
             }
         }
     }
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
-        unordered_map<int, vector<int>> adj;
+        vector<vector<int>> adj(n);
 
         int result = 0;
 
-        //Build the graph
+      
         for(auto &edge : edges) {
             int u = edge[0];
             int v = edge[1];

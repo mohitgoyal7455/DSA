@@ -1,45 +1,39 @@
 class Solution {
 public:
-    void dfs(int i, vector<vector<int>>& adj, vector<bool>& visited, int& v, int& e) {
-        visited[i] = 1;
+    void dfs(int &i,vector<vector<int>>&adj,vector<int>&vis,int &v, int &e ){
+        vis[i]=1;
+        e+=adj[i].size();
         v++;
-        e += adj[i].size();
-
-        for(int &it : adj[i]) {
-            if(!visited[it]) {
-                dfs(it, adj, visited, v, e);
+        for(auto it:adj[i]){
+            if(!vis[it]){
+                dfs(it,adj,vis,v,e);
             }
         }
     }
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
-        vector<vector<int>> adj(n);
-
-        int result = 0;
-
-      
-        for(auto &edge : edges) {
-            int u = edge[0];
-            int v = edge[1];
-
-            adj[u].push_back(v);
-            adj[v].push_back(u);
+        vector<vector<int>>adj(n);
+        
+        for(auto it:edges){
+        int u=it[0];
+        int v=it[1];    
+        adj[u].push_back(v);
+        adj[v].push_back(u);
         }
+        int result=0;
 
-        vector<bool> visited(n, false);
-        for(int i = 0; i < n; i++) {
-            if(!visited[i]){ 
-                
-            
-            int v = 0;
-            int e = 0;
-            dfs(i, adj, visited, v, e);
+        vector<int>vis(n,0);
+        for(int i=0;i<n;i++){
 
-            if((v*(v-1)) == e) {
-                result++;
-              }
+            if(!vis[i]){
+                int e=0;
+                int v=0;
+                dfs(i,adj,vis,v,e);
+                if((v*(v-1)==e)){
+                    result++;
+                }
             }
         }
-        
         return result;
+        
     }
 };

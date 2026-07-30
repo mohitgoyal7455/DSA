@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int minimumPushes(string word) {
+        vector<int> freq(26, 0);
+
+        for(char c : word)
+            freq[c - 'a']++;
+        int ans = 0;
+
+        sort(begin(freq), end(freq), greater<int>());
+
+        for(int i = 0; i < 26; i++){
+            if(freq[i] == 0) break;
+
+            ans += freq[i] * ((i/8) + 1);
+        }
+        return ans;
+    }
+};

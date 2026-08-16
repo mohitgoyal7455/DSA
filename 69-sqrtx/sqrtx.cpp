@@ -1,19 +1,14 @@
 class Solution {
 public:
     int mySqrt(int x) {
+        if (x == 0) return 0;
 
-        int low = 0, high = x, ans = -1;
-        while (low <= high){
-            long long mid = (low+high) / 2;
-            long long midsq = mid*mid;
-            if(midsq == x) return mid;
-            else if (midsq > x) high = mid-1;
-            else {
-                ans = mid;
-                low = mid + 1;
-            }
+        double n = x;
+
+        for (int i = 0; i < 20; i++) {
+            n = (n + x / n) / 2;
         }
-        return ans;
-        
+
+        return (int)n;
     }
 };

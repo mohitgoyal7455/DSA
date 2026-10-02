@@ -1,51 +1,63 @@
+// class Solution {
+// public:
+//     int orangesRotting(vector<vector<int>>& grid) {
+        
+//     }
+// };
+
 class Solution {
-public:
+  public:
     int orangesRotting(vector<vector<int>>& grid) {
         int n=grid.size();
         int m=grid[0].size();
-        
-        vector<vector<int>>vis(n,vector<int>(m));
-        queue<pair<pair<int,int>,int>>q;
-        int cf=0;
+        int fresh=0;
+      
+        queue<pair<int, int>> q;
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                if(grid[i][j]==2){
-                   vis[i][j]=2;
-                   q.push({{i,j},0});
-                }
-                else{
-                    vis[i][j]=0;
-                }
                 if(grid[i][j]==1){
-                    cf++;
+                    fresh++;
+                    
+                    
+                }
+                else if (grid[i][j]==2){
+                    q.push({i,j});
                 }
             }
         }
-        int tm=0;
-        int delrow[]={-1,0,1,0};
-        int delcol[]={0,1,0,-1};
-        int ct=0;
-        while(!q.empty()){
-            int r=q.front().first.first;
-            int c=q.front().first.second;
-            int t=q.front().second;
-            tm=max(tm,t);
-            q.pop();
-            for(int i=0;i<4;i++){
-                int nrow=r+delrow[i];
-                int ncol=c+delcol[i];
-                if(nrow>=0 && nrow<n && ncol >=0 && ncol <m && grid[nrow][ncol]==1 && !vis[nrow][ncol]){
-                    vis[nrow][ncol]=2;
-                    q.push({{nrow,ncol},t+1});
-                    ct++;
-                }
+        int time=0;
+        vector<int>delrow={-1,0,1,0};
+        vector<int>delcol={0,1,0,-1};
+        while (!q.empty() && fresh > 0) {
+                   int size = q.size();
 
-            }
+                   for (int i = 0; i < size; i++) {
+                       int r = q.front().first;
+                       int c = q.front().second;
+                       q.pop();
 
-        }
-        if(ct !=cf){
-            return -1;
-        }
-        return tm;
-    }
+                       for (int j = 0; j < 4; j++) {
+                           int nrow = r + delrow[j];
+                           int ncol = c + delcol[j];
+
+                           if (nrow >= 0 && nrow < n &&
+                               ncol >= 0 && ncol < m &&
+                               grid[nrow][ncol] == 1) {
+
+                               grid[nrow][ncol] = 2;
+                               fresh--;
+                               q.push({nrow, ncol});
+                           }
+                       }
+                   }
+
+                   time++;
+               }
+
+               if (fresh > 0) return -1;
+
+               return time;
+           }
+        
+    
 };
